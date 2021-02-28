@@ -1,0 +1,22 @@
+.simple-input {
+  text-align: center;
+  padding: 4px;
+  font-size: 36px;
+  width: 82px;
+  height: 42px;
+  background-color: transparent;
+  outline: none;
+  border: 0;
+  border-bottom: 2px solid $smaragdine;
+  color: $smaragdine;
+}
+
+input::-webkit-outer-spin-button,
+input::-webkit-inner-spin-button {
+  -webkit-appearance: none;
+  margin: 0;
+}
+
+input[type=number] {
+  -moz-appearance: textfield;
+}

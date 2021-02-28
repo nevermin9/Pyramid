@@ -1,0 +1,19 @@
+.field-wrapper {
+    display: flex;
+    flex-direction: column;
+}
+
+.field-wrapper__label {
+    display: flex;
+    align-items: flex-end;
+    color: $smaragdine;
+}
+
+.field-wrapper__input-slot {
+    margin-left: 6px;
+}
+
+.field-wrapper__error-text {
+    display: inline-block;
+    height: 12px;
+}

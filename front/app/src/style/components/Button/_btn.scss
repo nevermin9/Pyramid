@@ -1,0 +1,21 @@
+.btn {
+    color: $glaucous;
+    text-transform: uppercase;
+    font-weight: 700;
+    border: 0;
+    outline: none;
+    background-color: transparent;
+    cursor: pointer;
+
+    @include device-with-hover {
+        transition: transform .3s linear;
+
+        &:hover {
+            transform: scale(1.12);
+        }
+    }
+
+    &:active {
+        transform: translateY(4px);
+    }
+}
