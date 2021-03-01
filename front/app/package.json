@@ -1,14 +1,12 @@
 {
-    "name": "app",
+    "name": "pyramid_front-end",
     "version": "1.0.0",
-    "description": "",
     "main": "index.js",
     "scripts": {
         "build": "export NODE_ENV=production && rm -rf ./dist && node_modules/.bin/webpack",
         "serve": "node_modules/.bin/webpack serve"
     },
-    "keywords": [],
-    "author": "",
+    "author": "Anton Chistik <chizzza@gmail.com>",
     "license": "ISC",
     "dependencies": {
         "axios": "^0.21.1",

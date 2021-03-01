@@ -1,0 +1,22 @@
+version: "3"
+services: 
+    frontend:
+        image: pyramid_front:1.0
+        ports:
+            - 8000:8000
+        environment: 
+            - PORT=8000
+            - NODE_ENV=development
+            - BACK_APP_PORT=3000
+            - API_BASE_URL=http://localhost:3000/api/v1
+        depends_on: 
+            - backend
+
+    backend:
+        image: pyramid_back:1.0
+        ports: 
+            - 3000:3000
+        environment: 
+            - PORT=3000
+            - NODE_ENV=development
+            - FRONT_APP_PORT=8000

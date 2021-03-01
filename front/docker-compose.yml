@@ -1,0 +1,11 @@
+version: "3"
+services: 
+    pyramid_be:
+        image: pyramid_back:1.0
+        ports: 
+            - ${BACK_APP_PORT}:${BACK_APP_PORT}
+        environment: 
+            - PORT=${BACK_APP_PORT}
+            - NODE_ENV=${NODE_ENV}
+            - FRONT_APP_PORT=${PORT}
+        

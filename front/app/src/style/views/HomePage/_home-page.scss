@@ -12,6 +12,8 @@
 
 .home-page__header {
     width: 100%;
+    max-width: 600px;
+    width: 100%;
     margin-bottom: 32px;
 }
 
@@ -44,4 +46,80 @@
     display: flex;
     justify-content: center;
     width: 100%;
+    -webkit-perspective: 1000px;
+    perspective: 1000px;
+}
+
+.home-page__animated {
+    position: relative;
+    height: 40px;
+    max-width: 180px;
+    width: 100%;
+    transform-style: preserve-3d;
+}
+
+.home-page__animated-btn,
+.home-page__answer {
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    display: inline-block;
+    width: 100%;
+    transform-style: preserve-3d;
+    backface-visibility: hidden;
+}
+
+.home-page__animated-btn {
+    display: flex;
+    justify-content: center;
+    transform: translate(-50%, -50%);
+}
+
+.home-page__answer {
+    font-size: 18px;
+    color: $red;
+    text-align: center;
+    transform: translate(-50%, -50%) rotateX(170deg);
+}
+
+.home-page__try-again {
+    display: flex;
+    justify-content: center;
+    width: 100%;
+}
+
+.rotate-to,
+.rotate-from {
+    animation-duration: .7s;
+    animation-timing-function: linear;
+    animation-fill-mode: forwards;
+    animation-direction: normal;
+}
+
+.rotate-to {
+    animation-name: rotate-to;
+}
+
+.rotate-from {
+    animation-name: rotate-from;
+}
+
+@keyframes rotate-to {
+    0% {
+       transform: rotateX(0deg);
+    }
+
+    100% {
+        transform: rotateX(180deg);
+    }
+}
+
+@keyframes rotate-from {
+    0% {
+       transform: rotateX(180deg);
+    }
+
+    100% {
+        transform: rotateX(0deg);
+    }
 }

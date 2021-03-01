@@ -23,13 +23,13 @@
                     </template>
 
                     <template #error-text>
-
+                        {{ errors['ROW'] }}
                     </template>
                 </FieldWrapper>
 
                 <FieldWrapper class="home-page__form-field">
                     <template #label>
-                        num of the brick
+                        num
                     </template>
 
                     <template #input-slot>
@@ -42,18 +42,31 @@
                     </template>
 
                     <template #error-text>
-
+                        {{ errors['NUM'] }}
                     </template>
                 </FieldWrapper>
 
                 <div class="home-page__btn-wrapper">
-                    <button class="btn" type="submit">
-                        get pressure
-                    </button>
+                    <div ref="animated" class="home-page__animated">
+                        <div class="home-page__animated-btn">
+                            <button class="btn btn--first" type="submit" :disabled="requested">
+                                get pressure
+                            </button>
+                        </div>
+
+                        <span class="home-page__answer">
+                            {{ pressure }}
+                        </span>
+                    </div>
                 </div>
-                <div>
-                    {{ pressure }}
-                </div>
+
+                <transition name="fade">
+                    <div v-if="requested" class="home-page__try-again">
+                        <button class="btn btn--second" type="button" @click="tryAgain">
+                            try again
+                        </button>
+                    </div>
+                </transition>
             </form>
         </main>
     </section>
@@ -62,6 +75,7 @@
 <script>
     import FieldWrapper from '@/components/Form/FieldWrapper.vue';
     import { mapGetters, mapActions } from 'vuex';
+    import { ERROR_TEXTS } from '@/validation';
 
     export default {
         components: {
@@ -71,12 +85,24 @@
             return {
                 row: '',
                 num: '',
+                requested: false,
+                errors: {},
             }
         },
         computed: {
             ...mapGetters('HomePageStore', ['pressure']),
-            isNegativeValues() {
-            }
+            isValid() {
+                return this.isRowNotEmpty && this.isNumNotEmpty && this.isValidNum;
+            },
+            isRowNotEmpty() {
+                return this.row.length > 0;
+            },
+            isNumNotEmpty() {
+                return this.num.length > 0;
+            },
+            isValidNum() {
+                return parseInt(this.num, 10) <= parseInt(this.row, 10);
+            },
         },
         methods: {
             ...mapActions('HomePageStore', ['fetchPressure']),
@@ -90,8 +116,54 @@
                 }
             },
             getPressure() {
-                return this.fetchPressure({ row: this.row, num: this.num });
+                this.errors = {};
+
+                if (!this.isValid) {
+                    this.showErrors();
+                    return;
+                }
+
+                return this.fetchPressure({ row: this.row, num: this.num })
+                    .then(() => {
+                        this.requested = true;
+                    });
             },
+            playAnimation() {
+                if (this.requested) {
+                    this.$refs.animated.classList.remove('rotate-from')
+                    this.$refs.animated.classList.add('rotate-to')
+                } else {
+                    this.$refs.animated.classList.remove('rotate-to')
+                    this.$refs.animated.classList.add('rotate-from')
+                }
+            },
+            tryAgain() {
+                this.row = '';
+                this.num = '';
+                this.requested = false;
+            },
+            showErrors() {
+                this.errors = {};
+
+                if (!this.isRowNotEmpty) {
+                    this.errors['ROW'] = ERROR_TEXTS['ROW']['EMPTY'];
+                }
+
+                if (!this.isNumNotEmpty) {
+                    this.errors['NUM'] = ERROR_TEXTS['NUM']['EMPTY']
+                }
+
+                if (!this.isValidNum && this.isNumNotEmpty) {
+                    this.errors['NUM'] = ERROR_TEXTS['NUM']['INVALID_VALUE'];
+                }
+            }
         },
+        watch: {
+            requested(newVal, oldVal) {
+                if (newVal !== oldVal) {
+                    this.playAnimation();
+                }
+            }
+        }
     }
 </script>
